@@ -1,0 +1,41 @@
+import time
+def generare(n, nmax):
+    import random
+    vec = []
+    for i in range(0,n):
+        el = random.randint(1,nmax)
+        vec.append(el)
+    return vec
+start = time.time()
+def Merge(vec):
+    if len(vec) > 1:
+        mij = len(vec) // 2
+        ST = vec[:mij]
+        DR = vec[mij:]
+        Merge(ST) 
+        Merge(DR)
+        i = j = k = 0
+        while i < len(ST) and j < len(DR):
+            if ST[i] < DR[j]:
+                vec[k] = ST[i]
+                i += 1
+            else:
+                vec[k] = DR[j]
+                j += 1
+            k += 1
+        while i < len(ST):
+            vec[k] = ST[i]
+            i += 1
+            k += 1
+        while j < len(DR):
+            vec[k] = DR[j]
+            j += 1
+            k += 1
+vec = generare(100,1000)
+print("Vectorul nesortat este:")
+print(vec)
+Merge(vec)
+stop = time.time()
+print("Vectorul sortat este:")
+print(vec)
+print("Vectorul este in " + str(stop-start) + " secunde")
