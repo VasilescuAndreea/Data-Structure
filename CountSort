@@ -1,0 +1,39 @@
+f = open("sortari.txt","r")
+g = open("sortari.out","w")
+import time
+start = time.time()
+def generare(n, nmax):
+    import random
+    vec = []
+    for i in range(0,n):
+        el = random.randint(1,nmax)
+        vec.append(el)
+    return vec
+def Testare(vec):
+    ok = 1
+    for i in range(len(vec)-1):
+        if vec[i] > vec[i+1]:
+            ok = 0
+    if ok == 1:
+        print("Vectorul este sortat")
+    else:
+        print("Vectorul nu este sortat")
+def CountSort(vec):
+    minim = min(vec)
+    maxim = max(vec)
+    count = [0]*(maxim-minim+1)
+    for i in vec:
+        count[i-minim] += 1
+    k = 0
+    for i in range(len(count)):
+        for j in range(count[i]):
+            vec[k] = i + minim
+            k+= 1
+vec = generare(1000,1000)
+print("Vectorul nesortat este:" + str(vec))
+CountSort(vec)
+stop = time.time()
+print("Vectorul sortat este:")
+print(vec)
+print("algoritmul este sortat in " + str(stop - start) + " secunde")
+Testare(vec)
