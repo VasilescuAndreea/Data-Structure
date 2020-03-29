@@ -1,0 +1,155 @@
+import time
+def generare(n, nmax):
+    import random
+    vec = []
+    for i in range(0,n):
+        el = random.randint(1,nmax)
+        vec.append(el)
+    return vec
+
+def Testare(vec):
+    ok = 1
+    for i in range(len(vec)-1):
+        if vec[i] > vec[i+1]:
+            ok = 0
+    if ok == 1:
+        print("Vectorul este sortat")
+    else:
+        print("Vectorul nu este sortat")
+vec = generare(100,100)
+vec1 = vec.copy()
+vec2 = vec.copy()
+vec3 = vec.copy()
+vec4 = vec.copy()
+print("Vectorul nesortat este " + str(vec))
+
+#BUBBLE SORT
+start = time.time()
+def BubbleSort(vec):
+    n = len(vec)
+    for i in range(n):
+        for j in range (0,n-i-1):
+            if vec[j] > vec[j+1]:
+                vec[j] , vec[j+1] = vec[j+1] , vec[j]
+BubbleSort(vec)
+stop = time.time()
+print("BUBBLESORT:")
+print(vec)
+Testare(vec)
+print("algoritmul este sortat in " + str(stop - start) + " secunde")
+
+#COUNT SORT
+start1 = time.time()
+def CountSort(vec):
+    minim = min(vec)
+    maxim = max(vec)
+    count = [0]*(maxim-minim+1)
+    for i in vec:
+        count[i-minim] += 1
+    k = 0
+    for i in range(len(count)):
+        for j in range(count[i]):
+            vec[k] = i + minim
+            k+= 1
+CountSort(vec1)
+stop1 = time.time()
+print("COUNTSORT:")
+print(vec1)
+Testare(vec1)
+print("algoritmul este sortat in " + str(stop1 - start1) + " secunde")
+
+#MERGE SORT
+start2 = time.time()
+def Merge(vec):
+    if len(vec) > 1:
+        mid = len(vec) // 2
+        L = vec[:mid]
+        R = vec[mid:]
+        Merge(L)
+        Merge(R)
+        i = j = k = 0
+        while i < len(L) and j < len(R):
+            if L[i] < R[j]:
+                vec[k] = L[i]
+                i += 1
+            else:
+                vec[k] = R[j]
+                j += 1
+            k += 1
+        while i < len(L):
+            vec[k] = L[i]
+            i += 1
+            k += 1
+        while j < len(R):
+            vec[k] = R[j]
+            j += 1
+            k += 1
+print("MERGE SORT:")
+Merge(vec2)
+stop2 = time.time()
+print("Vectorul sortat este:")
+print(vec2)
+print("Vectorul este sortat in " + str(stop2-start2) + " secunde")
+
+#QUICK SORT
+start3 = time.time()
+def Recursivitate(vec, less, more):
+    pivot = vec[more]
+    i = less - 1
+    for j in range (less, more):
+        if vec[j] < pivot:
+            i += 1
+            vec[i], vec[j] = vec[j], vec[i]
+    vec[i+1], vec[more] = vec[more], vec[i+1]
+    return(i+1)
+
+def QuickSort(vec, less, more):
+    if less < more:
+        rec = Recursivitate(vec, less, more)
+        QuickSort(vec, less, rec-1)
+        QuickSort(vec, rec+1, more)
+
+print("QUICK SORT:")
+Merge(vec3)
+stop3 = time.time()
+print("Vectorul sortat este:")
+print(vec3)
+print("Vectorul este sortat in " + str(stop3-start3) + " secunde")
+
+#RADIX SORT
+start4 = time.time()
+def cs(vec, baza, c):
+    count = [0] * baza
+    rezult = [0] * len(vec)
+    for i in range(len(vec)):
+        aux = (vec[i] // (baza ** c)) % baza
+        count[aux] += 1
+    for i in range(1, len(count)):
+        count[i] += count[i - 1]
+    for i in range(len(vec) - 1, -1, -1):
+        aux = (vec[i] // (baza ** c)) % baza
+        count[aux] -= 1
+        rezult[count[aux]] = vec[i]
+    return rezult
+def radix(vec, b):
+    maxim = max(vec)
+    cifre = 0
+    while (maxim):
+        maxim = maxim // b
+        cifre += 1
+    for c in range(cifre):
+        vec = cs(vec, b, c)
+    return vec
+print("RADIX SORT:")
+Merge(vec4)
+stop4 = time.time()
+print("Vectorul sortat este:")
+print(vec4)
+print("Vectorul este sortat in " + str(stop4-start4) + " secunde")
+
+print("Timpii de sortare pentru a fi comparati")
+print("BubbleSort " + str(stop - start) + "secunde" )
+print("CountSort " + str(stop1 - start1)  + "secunde" )
+print("MergeSort " + str(stop2 - start2) + "secunde" )
+print("QuickSort " + str(stop3 - start3)  + "secunde" )
+print("RadixSort " + str(stop4 - start4) + "secunde" )
