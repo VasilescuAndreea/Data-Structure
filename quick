@@ -1,0 +1,45 @@
+import time
+def generare(n, nmax):
+    import random
+    vec = []
+    for i in range(0,n):
+        el = random.randint(1,nmax)
+        vec.append(el)
+    return vec
+def Testare(vec):
+    ok = 1
+    for i in range(len(vec)-1):
+        if vec[i] > vec[i+1]:
+            ok = 0
+    if ok == 1:
+        print("Vectorul este sortat")
+    else:
+        print("Vectorul nu este sortat")
+
+start = time.time()
+def Recursivitate(vec, less, more):
+    pivot = vec[more]
+    i = less - 1
+    for j in range (less, more):
+        if vec[j] < pivot:
+            i += 1
+            vec[i], vec[j] = vec[j], vec[i]
+    vec[i+1], vec[more] = vec[more], vec[i+1]
+    return(i+1)
+
+def QuickSort(vec, less, more):
+    if less < more:
+        rec = Recursivitate(vec, less, more)
+        QuickSort(vec, less, rec-1)
+        QuickSort(vec, rec+1, more)
+vec = generare(100,100)
+print("Vectorul nesortat este:")
+print(vec)
+less = 0
+more = len(vec)-1
+QuickSort(vec, less, more)
+stop = time.time()
+print("algoritmul este sortat in " + str(stop - start) + " secunde")
+QuickSort(vec, less, more)
+print(vec)
+Testare(vec)
