@@ -1,0 +1,36 @@
+import time
+def generare(n, nmax):
+    import random
+    vec = []
+    for i in range(0,n):
+        el = random.randint(1,nmax)
+        vec.append(el)
+    return vec
+
+def Testare(vec):
+    ok = 1
+    for i in range(len(vec)-1):
+        if vec[i] > vec[i+1]:
+            ok = 0
+    if ok == 1:
+        print("Vectorul este sortat")
+    else:
+        print("Vectorul nu este sortat")
+
+start = time.time()
+def BubbleSort(vec):
+    n = len(vec)
+    for i in range(n):
+        for j in range (0,n-i-1):
+            if vec[j] > vec[j+1]:
+                vec[j] , vec[j+1] = vec[j+1] , vec[j]
+vec = generare(15, 100)
+print("Vectorul nesortat este " + str(vec))
+BubbleSort(vec)
+stop = time.time()
+print("algoritmul este sortat in " + str(stop - start) + " secunde")
+
+#for i in range(len(vec)):
+    #print(vec[i])
+print(vec)
+Testare(vec)
